@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Task;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/tasks/{track}/{level}', function($track, $level) {
+    $tasks = DB::table('tasks')->where('level', '=', $level)->where('track', '=', $track)->get();
+
+    return response()->json($tasks, 200);
 });
