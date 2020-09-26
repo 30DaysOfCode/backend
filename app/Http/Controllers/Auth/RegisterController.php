@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use JWTAuth;
 use App\Http\Controllers\Controller;
+use \Illuminate\Http\Request;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -64,10 +66,37 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $token = JWTAuth::fromUser($user);
+
+        return response()->json(compact('user','token'),201);
+    }
+
+    protected function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
+
+        $user = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+        ]);
+
+        $token = JWTAuth::fromUser($user);
+
+        return response()->json(compact('token','user'),201);
     }
 }
