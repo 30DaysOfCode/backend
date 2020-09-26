@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,24 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/tasks/{track}/{level}', function($track, $level) {
+    $tasks = DB::table('tasks')->where('level', '=', $level)->where('track', '=', $track)->get();
+
+    if(count($tasks) === 0) {
+        return response()->json(['message' => 'No tasks found'], 404);
+    }
+
+    return response()->json($tasks);
+});
+
+Route::get('/tasks/{track}/{level}/{day}', function($track, $level, $day) {
+    $tasks = DB::table('tasks')->where('level', '=', $level)->where('track', '=', $track)->where('task_day', '=', $day)->get();
+
+    if(count($tasks) === 0) {
+        return response()->json(['message' => 'No tasks found'], 404);
+    }
+
+    return response()->json($tasks);
 });
