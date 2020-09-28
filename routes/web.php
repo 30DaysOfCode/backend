@@ -18,6 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 Route::get('/tasks/{track}/{level}', function($track, $level) {
     $tasks = DB::table('tasks')->where('level', '=', $level)->where('track', '=', $track)->get();
 
@@ -37,3 +42,4 @@ Route::get('/tasks/{track}/{level}/{day}', function($track, $level, $day) {
 
     return response()->json($tasks);
 });
+
