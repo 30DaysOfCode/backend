@@ -64,7 +64,6 @@ class LoginController extends Controller
             return response()->json(['status' => 'error', 'message' => 'We cannot find an account with this email or password. Please check your details'], 401);
         }
 
-//        $credentials['verified'] = 1;
 
         try {
             if (!$token = JWTAuth::attempt($credentials)) {

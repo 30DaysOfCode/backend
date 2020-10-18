@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\SubmissionController;
 
 
 /*
@@ -25,8 +26,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
 
-
-
     Route::post('/forgot-password', [UserController::class, 'forgotPassword']);
     Route::post('/verify-email', [UserController::class, 'verifyEmail']);
 
@@ -39,8 +38,21 @@ Route::prefix('v1')->group(function () {
         Route::post('logout', [UserController::class, 'logout']);
     });
 
+    
+
 });
 
 Route::group(['middleware' => 'jwt.verify'], function () {
-    // All other route and core features are in here
-});
+
+    Route::prefix('v1')->group(function () {
+        Route::group([ //submissions
+            'prefix' => 'submission',
+        ], function ($router) {
+            Route::get('/list', SubmissionController::class, 'index');
+            Route::post('/create', SubmissionController::class, 'store');
+            Route::post('/edit', SubmissionController::class, 'update');
+            Route::get('/view', SubmissionController::class, 'show');
+        });
+    });
+    
+}); // All other route and core features are in here
