@@ -19,4 +19,5 @@ class Submission extends Model
         'user_id', 'community_id', 'task_day', 'url', 'level', 'points', 'submission_date', 'track', 'comment', 'feedback'
     ];
 
+    
 }

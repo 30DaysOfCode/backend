@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
 use App\Models\Submission;
 use Illuminate\Http\Request;
+use Validator;
 
 class SubmissionController extends Controller
 {
@@ -17,8 +17,7 @@ class SubmissionController extends Controller
     {
         $submissions = Submission::all();
 
-        return response()->json(['status' => 'success', 'data' => $submissions],200);
- 
+        return response()->json(['status' => 'success', 'data' => $submissions], 200);
     }
 
     /**
@@ -34,7 +33,7 @@ class SubmissionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -52,7 +51,7 @@ class SubmissionController extends Controller
             'feedback' => 'required',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
@@ -68,18 +67,18 @@ class SubmissionController extends Controller
         $submission->comment = $request->get('comment');
         $submission->feedback = $request->get('feedback');
 
-        if($submission->save()) {
-            return response()->json(['status' => 'success','message' => 'Submissions has been created successfully'],200);
+        if ($submission->save()) {
+            return response()->json(['status' => 'success', 'message' => 'Submissions has been created successfully'], 200);
         }
 
-        return response()->json(['status' => 'error', 'message' => 'An error occurred'],200);
-    
+        return response()->json(['status' => 'error', 'message' => 'An error occurred'], 200);
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request)
@@ -89,18 +88,18 @@ class SubmissionController extends Controller
             'user_id' => 'required'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
         $submission = Submission::find($request->get('user_id'));
 
-        if($submission == null) {
-            return response()->json(["status" => "success", "message"  => 'This submission does not exist'],200);
+        if ($submission == null) {
+            return response()->json(["status" => "success", "message" => 'This submission does not exist'], 200);
         }
 
-        return response()->json(["status" => "success", "data" => $submission],200);
-   
+        return response()->json(["status" => "success", "data" => $submission], 200);
+
     }
 
     /**
@@ -117,8 +116,8 @@ class SubmissionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
@@ -136,7 +135,7 @@ class SubmissionController extends Controller
             'feedback' => '',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
@@ -151,18 +150,18 @@ class SubmissionController extends Controller
         $submission->comment = $request->get('comment');
         $submission->feedback = $request->get('feedback');
 
-        if($submission->save()) {
-            return response()->json(['status' => 'success','message' => 'Submissions has been created successfully'],200);
+        if ($submission->save()) {
+            return response()->json(['status' => 'success', 'message' => 'Submissions has been created successfully'], 200);
         }
 
-        return response()->json(['status' => 'error', 'message' => 'An error occurred'],200);
+        return response()->json(['status' => 'error', 'message' => 'An error occurred'], 200);
 
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

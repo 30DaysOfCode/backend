@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
-use JWTAuth;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Support\Facades\Auth;
-use \Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use JWTAuth;
 
 class LoginController extends Controller
 {
@@ -69,7 +69,7 @@ class LoginController extends Controller
             if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->json(['status' => 'error', 'message' => 'We want to keep your account safe. Please check your email to verify your email address.'], 400);
             }
-        } catch (JWTException $e) {
+        } catch (\JWTException $e) {
             return response()->json(['status' => 'error', 'message' => 'Oops! we could not create token'], 500);
         }
         $user = User::where('email', $credentials['email'])->first();
