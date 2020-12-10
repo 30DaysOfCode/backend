@@ -27,6 +27,3 @@ Route::get('/tasks/{track}/{level}', 'TasksController@getTask');
 
 Route::get('/tasks/{track}/{level}/{day}', 'TasksController@getTaskByDay');
 
-Route::get('/tasks/{track}/{level}', 'TasksController@getTask');
-
-Route::get('/tasks/{track}/{level}/{day}', 'TasksController@getTaskByDay');
